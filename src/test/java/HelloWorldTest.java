@@ -12,5 +12,6 @@ public class HelloWorldTest {
                 .get("https://playground.learnqa.ru/api/get_text")
                 .andReturn();
         System.out.println(response.asPrettyString());
+
     }
 }
