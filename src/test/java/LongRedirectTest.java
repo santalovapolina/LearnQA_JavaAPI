@@ -9,8 +9,12 @@ public class LongRedirectTest {
     public void testPrintFinalRedirect(){
 
         String url = "https://playground.learnqa.ru/api/long_redirect";
+        int count = 0;
 
         while (true) {
+
+            count = count + 1;
+
             Response response = given()
                     .redirects().follow(false) // Отключаем автоматическое следование
                     .when()
@@ -18,15 +22,20 @@ public class LongRedirectTest {
                     .andReturn();
 
             String nextUrl = response.getHeader("Location");
+            int statusCode = response.getStatusCode();
 
-            if (nextUrl == null) { // Если нет заголовка Location получим финальный адрес
-                System.out.println("Final URL" + url);
+            if (nextUrl == null && statusCode == 200) { // Если нет заголовка Location получим финальный адрес
+                System.out.println(statusCode);
+                System.out.println("Final URL " + url);
                 break;
             } else {
-                System.out.println("Redirect to" + nextUrl);
+                System.out.println(statusCode);
+                System.out.println("Redirect to " + nextUrl);
                 url = nextUrl; // Переходим на следующий URL
+
             }
         }
+        System.out.println("Redirect number " + count);
     }
 
 
@@ -40,7 +49,7 @@ public class LongRedirectTest {
                 .andReturn();
 
         String nextUrl = response.getHeader("Location");
-        System.out.println("Redirect to:" + nextUrl);
+        System.out.println("Redirect to :" + nextUrl);
     }
 
 }
